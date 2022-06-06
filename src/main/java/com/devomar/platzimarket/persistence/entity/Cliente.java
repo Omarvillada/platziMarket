@@ -23,6 +23,8 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private List<Compra> compras;
 
+
+
     public List<Compra> getCompras() {
         return compras;
     }

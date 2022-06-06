@@ -26,11 +26,19 @@ public class Compra {
     private String estado;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente", insertable = true,updatable = false)
+    @JoinColumn(name = "id_cliente", insertable = false,updatable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "producto")
     private List<ComprasProducto> productos;
+
+    public List<ComprasProducto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ComprasProducto> productos) {
+        this.productos = productos;
+    }
 
     public Cliente getCliente() {
         return cliente;
