@@ -1,15 +1,14 @@
 package com.devomar.platzimarket.web.controller;
 
 import com.devomar.platzimarket.domain.Product;
-import com.devomar.platzimarket.domain.repository.ProductRepository;
 import com.devomar.platzimarket.domain.service.ProductService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -18,19 +17,29 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/all")
+    @ApiOperation(value = "Get all supermarket products", authorizations = {
+            @Authorization(value = "JWT")
+    })
+
+    @ApiResponse(code = 200, message = "OK")
     public ResponseEntity<List<Product>> getAll(){
         return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
     }
 
+    @ApiOperation("Search a product with an ID")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "Product not found"),
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable("id") int productId){
+    public ResponseEntity<Product> getProduct(@ApiParam(value = "The Id of the product", required = true, example = "5") @PathVariable("id") int productId){
         return productService.getProduct(productId)
                 .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Product>> getByCategory(@PathVariable("categoryId") int categoryId){
+    public ResponseEntity<List<Product>> getByCategory(@ApiParam(value = "The Id of the product", required = true, example = "5") @PathVariable("categoryId") int categoryId){
         return productService.getByCategory(categoryId)
                 .map(products -> new ResponseEntity<>(products, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

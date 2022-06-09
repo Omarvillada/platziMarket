@@ -1,6 +1,7 @@
 package com.devomar.platzimarket.persistence.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Cliente {
 
     private String apellidos;
 
-    private Number celular;
+    private Long celular;
 
     private String direccion;
 
@@ -22,6 +23,8 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private List<Compra> compras;
+
+
 
 
 
@@ -57,11 +60,11 @@ public class Cliente {
         this.apellidos = apellidos;
     }
 
-    public Number getCelular() {
+    public Long getCelular() {
         return celular;
     }
 
-    public void setCelular(Number celular) {
+    public void setCelular(Long celular) {
         this.celular = celular;
     }
 
